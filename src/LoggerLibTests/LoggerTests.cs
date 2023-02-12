@@ -15,7 +15,7 @@ namespace LoggerLibTests
             var sw = new StringWriter(sb);
             Console.SetOut(sw);
 
-            logger.Log(message);
+            logger.Log(message, LogLevel.INFO);
 
             sb.ToString().Should().Be(message+Environment.NewLine);
         }

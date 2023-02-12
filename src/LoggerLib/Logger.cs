@@ -7,7 +7,7 @@
 
         }
 
-        public void Log(string mymessage)
+        public void Log(string mymessage, LogLevel level = LogLevel.INFO)
         {
             Console.WriteLine(mymessage);
         }
