@@ -19,9 +19,10 @@ namespace LoggerLibTests.Writers
             //left blank
         }
 
-        public void Write(string message, LogLevel level)
+        public Task Write(string message, LogLevel level)
         {
             Sb.AppendLine(message);
+            return Task.CompletedTask;
         }
     }
 }

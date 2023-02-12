@@ -1,6 +1,8 @@
-﻿using LoggerLib;
-using LoggerLib.Writers;
+﻿namespace LoggerLib;
 
+/// <summary>
+/// Provides the top-level API of logging to use
+/// </summary>
 public class Logger
 {
     public const string FORMAT = "{0} [{1}] {2}";
@@ -11,14 +13,14 @@ public class Logger
         Writer = writer;
     }
 
-    public void LogInformation(string message) => Log(message, LogLevel.INFO);
-    public void LogDebug(string message) => Log(message, LogLevel.DEBUG);
-    public void LogError(string message) => Log(message, LogLevel.ERROR);
+    public Task LogInformation(string message) => Log(message, LogLevel.INFO);
+    public Task LogDebug(string message) => Log(message, LogLevel.DEBUG);
+    public Task LogError(string message) => Log(message, LogLevel.ERROR);
 
 
-    public void Log(string message, LogLevel level = LogLevel.INFO)
+    public Task Log(string message, LogLevel level = LogLevel.INFO)
     {
-        Writer.Write(Format(message, level, DateTime.Now), level);
+        return Writer.Write(Format(message, level, DateTime.Now), level);
     }
 
     protected virtual string Format(string message, LogLevel level, DateTime time)

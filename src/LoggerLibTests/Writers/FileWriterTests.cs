@@ -16,7 +16,7 @@ namespace LoggerLibTests.Writers
         }
 
         [Fact]
-        public void ShouldWriteMessageToFile()
+        public async Task ShouldWriteMessageToFile()
         {
             var path = Path.GetTempPath();
             var writer = new FileWriter(path);
@@ -24,7 +24,7 @@ namespace LoggerLibTests.Writers
             var expected = $"{message}{Environment.NewLine}";
 
 
-            writer.Write(message, LoggerLib.LogLevel.INFO);
+            await writer.Write(message, LoggerLib.LogLevel.INFO);
 
 
             writer.Dispose();
@@ -32,7 +32,7 @@ namespace LoggerLibTests.Writers
         }
 
         [Fact]
-        public void ShouldWriteTwoMessagesToFile()
+        public async Task ShouldWriteTwoMessagesToFile()
         {
             var path = Path.GetTempPath();
             var writer = new FileWriter(path);
@@ -41,8 +41,8 @@ namespace LoggerLibTests.Writers
             var expected = $"{message1}{Environment.NewLine}{message2}{Environment.NewLine}";
 
 
-            writer.Write(message1, LoggerLib.LogLevel.INFO);
-            writer.Write(message2, LoggerLib.LogLevel.INFO);
+            await writer.Write(message1, LoggerLib.LogLevel.INFO);
+            await writer.Write(message2, LoggerLib.LogLevel.INFO);
 
 
             writer.Dispose();
@@ -50,7 +50,7 @@ namespace LoggerLibTests.Writers
         }
 
         [Fact]
-        public void ShouldRollFilesOverMaxSize()
+        public async Task ShouldRollFilesOverMaxSize()
         {
             var path = Path.GetTempPath();
             var writer = new FileWriter(path);
@@ -59,9 +59,9 @@ namespace LoggerLibTests.Writers
             var message3 = "message2";
 
 
-            writer.Write(message1, LoggerLib.LogLevel.INFO);
-            writer.Write(message2, LoggerLib.LogLevel.INFO);
-            writer.Write(message3, LoggerLib.LogLevel.INFO);
+            await writer.Write(message1, LoggerLib.LogLevel.INFO);
+            await writer.Write(message2, LoggerLib.LogLevel.INFO);
+            await writer.Write(message3, LoggerLib.LogLevel.INFO);
 
 
             writer.Dispose();

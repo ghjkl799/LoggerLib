@@ -12,32 +12,37 @@ namespace LoggerLibTests.Writers
     public class ConsoleWriterTests
     {
         [Fact]
-        public void CanWriteShortMessage()
+        public async Task CanWriteShortMessage()
         {
-            var writer = CreateTestConsoleWriter();
+            var (writer, sb) = CreateTestConsoleWriter();
+            var message = "a short message";
+            var expected = $"{message}{Environment.NewLine}";
 
 
-            writer.Write("a short message", LogLevel.INFO);
+            await writer.Write(message, LogLevel.INFO);
+
+
+            sb.ToString().Should().Be(expected);
         }
 
         [Fact]
-        public void CanWriteMaxLengthMessage()
+        public async Task CanWriteMaxLengthMessage()
         {
-            var writer = CreateTestConsoleWriter();
+            var (writer, sb) = CreateTestConsoleWriter();
 
-            writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH), LogLevel.INFO);
+            await writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH), LogLevel.INFO);
         }
 
         [Fact]
-        public void ShouldThrowExceptionForLongMessage()
+        public async Task ShouldThrowExceptionForLongMessage()
         {
-            var writer = CreateTestConsoleWriter();
+            var (writer, sb) = CreateTestConsoleWriter();
 
 
-            var act = () => writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH + 1), LogLevel.INFO);
+            var act = async () => await writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH + 1), LogLevel.INFO);
 
 
-            act.Should().Throw<MessageTooLongException>();
+            await act.Should().ThrowAsync<MessageTooLongException>();
         }
 
         [Theory]
@@ -49,12 +54,12 @@ namespace LoggerLibTests.Writers
             ConsoleWriter.LevelToColor(level).Should().Be(color);
         }
 
-        private ConsoleWriter CreateTestConsoleWriter()
+        private (ConsoleWriter writer, StringBuilder sb) CreateTestConsoleWriter()
         {
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             Console.SetOut(sw);
-            return new ConsoleWriter();
+            return (new ConsoleWriter(), sb);
         }
     }
 }

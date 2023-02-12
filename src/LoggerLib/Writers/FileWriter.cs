@@ -1,80 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace LoggerLib.Writers;
 
-namespace LoggerLib.Writers
+public class FileWriter : IWriter
 {
-    public class FileWriter : IWriter
+    private bool disposedValue;
+    private int RollIndex = 1;
+    private System.IO.StreamWriter SW { get; set; }
+
+    public const int ROLL_FILE_SIZE_BYTES = 5000;
+
+    public string Path { get; }
+
+    public string LogFilePath(int? rollIndex = null)
     {
-        private bool disposedValue;
-        private int RollIndex = 1;
-        private System.IO.StreamWriter SW { get; set; }
+        return System.IO.Path.Combine(Path, rollIndex.HasValue ? $"log.{rollIndex}.txt" : "log.txt");
+    }
 
-        public const int ROLL_FILE_SIZE_BYTES = 5000;
+    /// <summary>
+    /// The destination directory must exists and has to be writeble.
+    /// </summary>
+    /// <param name="path">Path of the folder to write logfiles to</param>
+    public FileWriter(string path)
+    {
+        Path = path;
+        SW = CreateWriter();
+    }
 
-        public string Path { get; }
+    private System.IO.StreamWriter CreateWriter()
+    {
+        return new(LogFilePath(), append: true);
+    }
 
-        public string LogFilePath(int? rollIndex = null)
+    public async Task Write(string message, LogLevel level)
+    {
+        await SW.WriteLineAsync(message).ConfigureAwait(false);
+        await SW.FlushAsync().ConfigureAwait(false);
+        await RollIfNeeded().ConfigureAwait(false);
+    }
+
+    
+    private async Task RollIfNeeded()
+    {
+        //possible issue with recreating the filewrite and overwriting existing archived files
+        //refactor to a strategy if things get more complex
+        if(SW.BaseStream.Position >= ROLL_FILE_SIZE_BYTES)
         {
-            return System.IO.Path.Combine(Path, rollIndex.HasValue ? $"log.{rollIndex}.txt" : "log.txt");
-        }
-
-        /// <summary>
-        /// The destination directory must exists and has to be writeble.
-        /// </summary>
-        /// <param name="path">Path of the folder to write logfiles to</param>
-        public FileWriter(string path)
-        {
-            Path = path;
+            await SW.DisposeAsync().ConfigureAwait(false);
+            File.Move(LogFilePath(), LogFilePath(RollIndex), true);
             SW = CreateWriter();
+            RollIndex++;
         }
+    }
 
-        private System.IO.StreamWriter CreateWriter()
-        {
-            return new(LogFilePath(), append: true);
-        }
+    private 
 
-        public void Write(string message, LogLevel level)
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
         {
-            SW.WriteLine(message);
-            SW.Flush();
-            RollIfNeeded();
-        }
-
-        
-        private void RollIfNeeded()
-        {
-            //possible issue with recreating the filewrite and overwriting existing archived files
-            //refactor to a strategy if things get more complex
-            if(SW.BaseStream.Position >= ROLL_FILE_SIZE_BYTES)
+            if (disposing)
             {
                 SW.Dispose();
-                File.Move(LogFilePath(), LogFilePath(RollIndex), true);
-                SW = CreateWriter();
-                RollIndex++;
             }
+            disposedValue = true;
         }
-
-        private 
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    SW.Dispose();
-                }
-                disposedValue = true;
-            }
-        }
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
-        }
+    }
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
     }
 }

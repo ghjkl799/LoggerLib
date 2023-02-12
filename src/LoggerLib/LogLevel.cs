@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace LoggerLib;
 
-namespace LoggerLib
+public enum LogLevel
 {
-    public enum LogLevel
-    {
-        DEBUG,
-        INFO,
-        ERROR
-    }
+    DEBUG,
+    INFO,
+    ERROR
 }
