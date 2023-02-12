@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,17 @@ namespace LoggerLib.Writers
     public class FileWriter : IWriter
     {
         private bool disposedValue;
+        private int RollIndex = 1;
+        private System.IO.StreamWriter SW { get; set; }
+
+        public const int ROLL_FILE_SIZE_BYTES = 5000;
 
         public string Path { get; }
-        private System.IO.StreamWriter SW { get; }
+
+        public string LogFilePath(int? rollIndex = null)
+        {
+            return System.IO.Path.Combine(Path, rollIndex.HasValue ? $"log.{rollIndex}.txt" : "log.txt");
+        }
 
         /// <summary>
         /// The destination directory must exists and has to be writeble.
@@ -20,13 +29,36 @@ namespace LoggerLib.Writers
         public FileWriter(string path)
         {
             Path = path;
-            SW = new(System.IO.Path.Combine(path, "log.txt"), append: true);
+            SW = CreateWriter();
+        }
+
+        private System.IO.StreamWriter CreateWriter()
+        {
+            return new(LogFilePath(), append: true);
         }
 
         public void Write(string message, LogLevel level)
         {
             SW.WriteLine(message);
+            SW.Flush();
+            RollIfNeeded();
         }
+
+        
+        private void RollIfNeeded()
+        {
+            //possible issue with recreating the filewrite and overwriting existing archived files
+            //refactor to a strategy if things get more complex
+            if(SW.BaseStream.Position >= ROLL_FILE_SIZE_BYTES)
+            {
+                SW.Dispose();
+                File.Move(LogFilePath(), LogFilePath(RollIndex), true);
+                SW = CreateWriter();
+                RollIndex++;
+            }
+        }
+
+        private 
 
         protected virtual void Dispose(bool disposing)
         {
