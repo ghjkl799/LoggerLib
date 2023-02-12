@@ -3,17 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLib", "src\LoggerLib\LoggerLib.csproj", "{26851B01-AFC4-402B-9619-EEACFBB09FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerLib", "src\LoggerLib\LoggerLib.csproj", "{26851B01-AFC4-402B-9619-EEACFBB09FC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLibTests", "src\LoggerLibTests\LoggerLibTests.csproj", "{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggerLibTests", "src\LoggerLibTests\LoggerLibTests.csproj", "{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CB55C26A-574B-453F-98C5-52DB35F6F4F0}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		src\LoggerLib\LoggerLib.nuspec = src\LoggerLib\LoggerLib.nuspec
-		bin\pack.bat = bin\pack.bat
+		cmd\pack.bat = cmd\pack.bat
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "samples\Samples\Samples.csproj", "{30C68646-2678-4DF3-BC65-983060C7CF89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Samples", "samples\Samples\Samples.csproj", "{30C68646-2678-4DF3-BC65-983060C7CF89}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
