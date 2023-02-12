@@ -22,30 +22,37 @@ namespace LoggerLibTests
         [InlineData("an error", LogLevel.ERROR, "2020-01-01 13:14:15", "13:14:15 [error] an error\r\n")]
         public void CanFormatString(string message, LogLevel level, string time, string expected)
         {
-            var logger = new TestLogger();
+            var (logger, sb) = CreateTestLogger();
             logger.FixTime = DateTime.Parse(time);
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            Console.SetOut(sw);
+
 
             logger.Log(message, level);
+
 
             sb.ToString().Should().Be(expected);
         }
 
         public void CanWriteTwoMessages()
         {
-            var logger = new TestLogger();
+            var (logger, sb) = CreateTestLogger();
             logger.FixTime = DateTime.Parse("2020-01-01 11:12:13");
             var expected = "11:12:13 [info] infomessage\r\n11:12:13 [error] errormessage\r\n";
-            var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            Console.SetOut(sw);
+
 
             logger.Log("infomessage", LogLevel.INFO);
             logger.Log("errormessage", LogLevel.ERROR);
 
+
             sb.ToString().Should().Be(expected);
+        }
+
+        private static (TestLogger, StringBuilder) CreateTestLogger()
+        {
+            var logger = new TestLogger();
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            Console.SetOut(sw);
+            return (logger, sb);
         }
     }
 }
