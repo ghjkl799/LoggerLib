@@ -6,5 +6,10 @@
         {
 
         }
+
+        public void Log(string mymessage)
+        {
+            Console.WriteLine(mymessage);
+        }
     }
 }
