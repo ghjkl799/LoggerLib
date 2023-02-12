@@ -5,7 +5,7 @@ public class ConsoleWriter : IWriter
 
     public async Task Write(string message, LogLevel level)
     {
-        if(message != null && message.Length > MAX_MESSAGE_LENGTH)
+        if (message != null && message.Length > MAX_MESSAGE_LENGTH)
         {
             throw new MessageTooLongException($"Message is too long, actual length: {message.Length}, max length: {MAX_MESSAGE_LENGTH}.");
         }
@@ -21,13 +21,13 @@ public class ConsoleWriter : IWriter
         _ => ConsoleColor.Green,
     };
 
-    protected void SetColor (LogLevel level)
+    protected void SetColor(LogLevel level)
     {
         Console.ForegroundColor = LevelToColor(level);
     }
 
     public void Dispose()
-    { 
+    {
         //left blank
     }
 }

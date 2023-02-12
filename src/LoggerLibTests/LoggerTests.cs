@@ -2,7 +2,6 @@ using FluentAssertions;
 using LoggerLib;
 using LoggerLib.Writers;
 using LoggerLibTests.Writers;
-using Newtonsoft.Json;
 using System.Text;
 
 namespace LoggerLibTests

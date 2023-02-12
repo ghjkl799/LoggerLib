@@ -1,11 +1,7 @@
 ﻿using FluentAssertions;
 using LoggerLib;
 using LoggerLib.Writers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace LoggerLibTests.Writers
 {

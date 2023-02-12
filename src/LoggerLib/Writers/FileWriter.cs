@@ -37,12 +37,12 @@ public class FileWriter : IWriter
         await RollIfNeeded().ConfigureAwait(false);
     }
 
-    
+
     private async Task RollIfNeeded()
     {
         //possible issue with recreating the filewrite and overwriting existing archived files
         //refactor to a strategy if things get more complex
-        if(SW.BaseStream.Position >= ROLL_FILE_SIZE_BYTES)
+        if (SW.BaseStream.Position >= ROLL_FILE_SIZE_BYTES)
         {
             await SW.DisposeAsync().ConfigureAwait(false);
             File.Move(LogFilePath(), LogFilePath(RollIndex), true);
@@ -51,7 +51,7 @@ public class FileWriter : IWriter
         }
     }
 
-    private 
+    private
 
     protected virtual void Dispose(bool disposing)
     {
