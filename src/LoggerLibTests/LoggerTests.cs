@@ -1,6 +1,7 @@
 using FluentAssertions;
 using LoggerLib;
 using LoggerLib.Writers;
+using LoggerLibTests.Writers;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -8,6 +9,8 @@ namespace LoggerLibTests
 {
     public class TestLogger : Logger
     {
+        public TestLogger(IEnumerable<IWriter> writers) : base(writers) {}
+
         public DateTime FixTime { get; set; } = DateTime.Now;
 
         override protected string Format(string message, LogLevel level, DateTime time)
@@ -18,13 +21,6 @@ namespace LoggerLibTests
 
     public class LoggerTests
     {
-        [Fact]
-        public void CreateConsoleLogger()
-        {
-            var writer = new ConsoleWriter();
-        }
-
-
         [Theory]
         [InlineData("the message", LogLevel.INFO, "2020-01-01 00:00:01", "00:00:01 [info] the message\r\n")]
         [InlineData("a debug message", LogLevel.DEBUG, "2020-01-01 00:00:02", "00:00:02 [debug] a debug message\r\n")]
@@ -56,13 +52,12 @@ namespace LoggerLibTests
             sb.ToString().Should().Be(expected);
         }
 
-        private static (TestLogger, StringBuilder) CreateTestLogger()
+        private static (TestLogger logger, StringBuilder sb) CreateTestLogger()
         {
-            var logger = new TestLogger();
+            var writer = new TestWriter();
+            var logger = new TestLogger(new[] { writer });
             var sb = new StringBuilder();
-            var sw = new StringWriter(sb);
-            Console.SetOut(sw);
-            return (logger, sb);
+            return (logger, writer.Sb);
         }
     }
 }
