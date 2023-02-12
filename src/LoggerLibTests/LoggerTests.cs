@@ -1,5 +1,7 @@
 using FluentAssertions;
 using LoggerLib;
+using LoggerLib.Writers;
+using Newtonsoft.Json;
 using System.Text;
 
 namespace LoggerLibTests
@@ -16,6 +18,13 @@ namespace LoggerLibTests
 
     public class LoggerTests
     {
+        [Fact]
+        public void CreateConsoleLogger()
+        {
+            var writer = new ConsoleWriter();
+        }
+
+
         [Theory]
         [InlineData("the message", LogLevel.INFO, "2020-01-01 00:00:01", "00:00:01 [info] the message\r\n")]
         [InlineData("a debug message", LogLevel.DEBUG, "2020-01-01 00:00:02", "00:00:02 [debug] a debug message\r\n")]
