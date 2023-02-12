@@ -32,6 +32,7 @@ namespace LoggerLibTests
             sb.ToString().Should().Be(expected);
         }
 
+        [Fact]
         public void CanWriteTwoMessages()
         {
             var (logger, sb) = CreateTestLogger();
