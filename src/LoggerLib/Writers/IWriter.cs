@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LoggerLib.Writers
 {
-    public interface IWriter
+    public interface IWriter : IDisposable
     {
         void Write(string message, LogLevel level);
     }

@@ -33,5 +33,10 @@ namespace LoggerLib.Writers
         {
             Console.ForegroundColor = LevelToColor(level);
         }
+
+        public void Dispose()
+        { 
+            //left blank
+        }
     }
 }

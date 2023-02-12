@@ -14,6 +14,11 @@ namespace LoggerLibTests.Writers
 
         public string Message => Sb.ToString();
 
+        public void Dispose()
+        {
+            //left blank
+        }
+
         public void Write(string message, LogLevel level)
         {
             Sb.AppendLine(message);
