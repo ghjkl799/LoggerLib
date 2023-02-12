@@ -7,6 +7,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLib", "src\LoggerLib\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerLibTests", "src\LoggerLibTests\LoggerLibTests.csproj", "{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CB55C26A-574B-453F-98C5-52DB35F6F4F0}"
+	ProjectSection(SolutionItems) = preProject
+		src\LoggerLib\LoggerLib.nuspec = src\LoggerLib\LoggerLib.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

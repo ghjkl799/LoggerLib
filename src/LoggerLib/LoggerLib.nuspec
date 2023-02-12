@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package >
+  <metadata>
+    <id>LoggerLib</id>
+    <version>0.0.1</version>
+    <title>A sample logger library</title>
+    <authors>Konkoly Dávid</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="expression">MIT</license>
+    <!-- <icon>icon.png</icon> -->
+    <projectUrl>http://project_url_here_or_delete_this_line/</projectUrl>
+    <description>Logger kata</description>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>-</copyright>
+    <tags>log logging</tags>
+  </metadata>
+</package>
