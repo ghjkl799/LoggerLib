@@ -3,9 +3,11 @@
 /// <summary>
 /// Provides the top-level API of logging to use
 /// </summary>
-public class Logger
+public class Logger : IDisposable
 {
     public const string FORMAT = "{0} [{1}] {2}";
+    private bool disposedValue;
+
     private IWriter Writer { get; }
 
     public Logger(IWriter writer)
@@ -35,4 +37,22 @@ public class Logger
         LogLevel.ERROR => "error",
         _ => level.ToString(),
     };
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!disposedValue)
+        {
+            if (disposing)
+            {
+                Writer?.Dispose();
+            }
+            disposedValue = true;
+        }
+    }
+
+    public void Dispose()
+    {
+        Dispose(disposing: true);
+        GC.SuppressFinalize(this);
+    }
 }

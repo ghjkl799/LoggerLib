@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		bin\pack.bat = bin\pack.bat
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samples", "samples\Samples\Samples.csproj", "{30C68646-2678-4DF3-BC65-983060C7CF89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9B84CB80-4084-4362-B6E1-7C273DF8CEDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30C68646-2678-4DF3-BC65-983060C7CF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30C68646-2678-4DF3-BC65-983060C7CF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30C68646-2678-4DF3-BC65-983060C7CF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30C68646-2678-4DF3-BC65-983060C7CF89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

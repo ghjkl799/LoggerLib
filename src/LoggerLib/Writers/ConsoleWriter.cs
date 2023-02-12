@@ -2,6 +2,12 @@
 public class ConsoleWriter : IWriter
 {
     public const int MAX_MESSAGE_LENGTH = 1000;
+    private ConsoleColor InitialColor { get; }
+
+    public ConsoleWriter()
+    {
+        InitialColor = Console.ForegroundColor;
+    }
 
     public async Task Write(string message, LogLevel level)
     {
@@ -28,6 +34,6 @@ public class ConsoleWriter : IWriter
 
     public void Dispose()
     {
-        //left blank
+        Console.ForegroundColor = InitialColor;
     }
 }
