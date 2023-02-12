@@ -32,5 +32,20 @@ namespace LoggerLibTests
 
             sb.ToString().Should().Be(expected);
         }
+
+        public void CanWriteTwoMessages()
+        {
+            var logger = new TestLogger();
+            logger.FixTime = DateTime.Parse("2020-01-01 11:12:13");
+            var expected = "11:12:13 [info] infomessage\r\n11:12:13 [error] errormessage\r\n";
+            var sb = new StringBuilder();
+            var sw = new StringWriter(sb);
+            Console.SetOut(sw);
+
+            logger.Log("infomessage", LogLevel.INFO);
+            logger.Log("errormessage", LogLevel.ERROR);
+
+            sb.ToString().Should().Be(expected);
+        }
     }
 }
