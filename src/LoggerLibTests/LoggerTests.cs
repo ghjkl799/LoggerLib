@@ -16,18 +16,19 @@ namespace LoggerLibTests
 
     public class LoggerTests
     {
-        [Fact]
-        public void CanFormatString()
+        [Theory]
+        [InlineData("the message", LogLevel.INFO, "2020-01-01 00:00:01", "00:00:01 [info] the message\r\n")]
+        [InlineData("a debug message", LogLevel.DEBUG, "2020-01-01 00:00:02", "00:00:02 [debug] a debug message\r\n")]
+        [InlineData("an error", LogLevel.ERROR, "2020-01-01 13:14:15", "13:14:15 [error] an error\r\n")]
+        public void CanFormatString(string message, LogLevel level, string time, string expected)
         {
             var logger = new TestLogger();
-            logger.FixTime = DateTime.Parse("2020-01-01 11:12:13");
-            var message = "mymessage";
-            var expected = $"11:12:13 [info] {message}"+Environment.NewLine;
+            logger.FixTime = DateTime.Parse(time);
             var sb = new StringBuilder();
             var sw = new StringWriter(sb);
             Console.SetOut(sw);
 
-            logger.Log(message, LogLevel.INFO);
+            logger.Log(message, level);
 
             sb.ToString().Should().Be(expected);
         }

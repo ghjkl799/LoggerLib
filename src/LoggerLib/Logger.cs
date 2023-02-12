@@ -15,7 +15,7 @@ public class Logger
 
     protected virtual string Format(string message, LogLevel level, DateTime time)
     {
-        return string.Format(FORMAT, time.ToLongTimeString(), LevelString(level), message);
+        return string.Format(FORMAT, time.ToString("HH:mm:ss"), LevelString(level), message);
     }
 
     private string LevelString(LogLevel level) => level switch
