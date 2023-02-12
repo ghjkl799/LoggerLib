@@ -1,4 +1,5 @@
-﻿using LoggerLib.Writers;
+﻿using LoggerLib;
+using LoggerLib.Writers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace LoggerLibTests.Writers
 
         public string Message => Sb.ToString();
 
-        public void Write(string message)
+        public void Write(string message, LogLevel level)
         {
             Sb.AppendLine(message);
         }

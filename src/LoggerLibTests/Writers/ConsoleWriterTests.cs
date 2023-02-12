@@ -16,7 +16,8 @@ namespace LoggerLibTests.Writers
         {
             var writer = CreateTestConsoleWriter();
 
-            writer.Write("a short message");
+
+            writer.Write("a short message", LogLevel.INFO);
         }
 
         [Fact]
@@ -24,7 +25,7 @@ namespace LoggerLibTests.Writers
         {
             var writer = CreateTestConsoleWriter();
 
-            writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH));
+            writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH), LogLevel.INFO);
         }
 
         [Fact]
@@ -32,9 +33,20 @@ namespace LoggerLibTests.Writers
         {
             var writer = CreateTestConsoleWriter();
 
-            var act = () => writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH + 1));
+
+            var act = () => writer.Write(new string('x', ConsoleWriter.MAX_MESSAGE_LENGTH + 1), LogLevel.INFO);
+
 
             act.Should().Throw<MessageTooLongException>();
+        }
+
+        [Theory]
+        [InlineData(LogLevel.INFO, ConsoleColor.Green)]
+        [InlineData(LogLevel.DEBUG, ConsoleColor.Gray)]
+        [InlineData(LogLevel.ERROR, ConsoleColor.Red)]
+        public void LogLevelToColor(LogLevel level, ConsoleColor color)
+        {
+            ConsoleWriter.LevelToColor(level).Should().Be(color);
         }
 
         private ConsoleWriter CreateTestConsoleWriter()
@@ -44,7 +56,5 @@ namespace LoggerLibTests.Writers
             Console.SetOut(sw);
             return new ConsoleWriter();
         }
-
-
     }
 }

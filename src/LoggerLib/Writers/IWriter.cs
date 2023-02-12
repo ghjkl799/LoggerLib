@@ -8,6 +8,6 @@ namespace LoggerLib.Writers
 {
     public interface IWriter
     {
-        void Write(string message);
+        void Write(string message, LogLevel level);
     }
 }

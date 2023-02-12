@@ -16,7 +16,7 @@ public class Logger
     {
         foreach(var writer in Writers)
         {
-            writer.Write(Format(message, level, DateTime.Now));
+            writer.Write(Format(message, level, DateTime.Now), level);
         }
     }
 
