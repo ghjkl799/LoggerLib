@@ -4,20 +4,21 @@ using LoggerLib.Writers;
 public class Logger
 {
     public const string FORMAT = "{0} [{1}] {2}";
-    private IEnumerable<IWriter> Writers { get; } = new List<IWriter>();
+    private IWriter Writer { get; }
 
-    public Logger(IEnumerable<IWriter> writers)
+    public Logger(IWriter writer)
     {
-        Writers = writers;
+        Writer = writer;
     }
+
+    public void LogInformation(string message) => Log(message, LogLevel.INFO);
+    public void LogDebug(string message) => Log(message, LogLevel.DEBUG);
+    public void LogError(string message) => Log(message, LogLevel.ERROR);
 
 
     public void Log(string message, LogLevel level = LogLevel.INFO)
     {
-        foreach(var writer in Writers)
-        {
-            writer.Write(Format(message, level, DateTime.Now), level);
-        }
+        Writer.Write(Format(message, level, DateTime.Now), level);
     }
 
     protected virtual string Format(string message, LogLevel level, DateTime time)

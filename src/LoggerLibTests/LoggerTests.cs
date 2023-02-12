@@ -7,18 +7,6 @@ using System.Text;
 
 namespace LoggerLibTests
 {
-    public class TestLogger : Logger
-    {
-        public TestLogger(IEnumerable<IWriter> writers) : base(writers) {}
-
-        public DateTime FixTime { get; set; } = DateTime.Now;
-
-        override protected string Format(string message, LogLevel level, DateTime time)
-        {
-            return base.Format(message, level, FixTime);
-        }
-    }
-
     public class LoggerTests
     {
         [Theory]
@@ -52,12 +40,74 @@ namespace LoggerLibTests
             sb.ToString().Should().Be(expected);
         }
 
+        [Fact]
+        public void LogDebugShouldbeDebug()
+        {
+            var (logger, sb) = CreateTestLogger();
+            var time = "12:00:11";
+            var message = "a debug message";
+            var expected = $"{time} [debug] {message}{Environment.NewLine}";
+            logger.FixTime = DateTime.Parse(time);
+
+
+            logger.LogDebug(message);
+
+
+            sb.ToString().Should().Be(expected);
+        }
+
+        [Fact]
+        public void LogInfoShouldbeInfo()
+        {
+            var (logger, sb) = CreateTestLogger();
+            var time = "12:00:11";
+            var message = "an info message";
+            var expected = $"{time} [info] {message}{Environment.NewLine}";
+            logger.FixTime = DateTime.Parse(time);
+
+
+            logger.LogInformation(message);
+
+
+            sb.ToString().Should().Be(expected);
+        }
+
+        [Fact]
+        public void LogErrorShouldbeInfo()
+        {
+            var (logger, sb) = CreateTestLogger();
+            var time = "12:00:11";
+            var message = "an error message";
+            var expected = $"{time} [error] {message}{Environment.NewLine}";
+            logger.FixTime = DateTime.Parse(time);
+
+
+            logger.LogError(message);
+
+
+            sb.ToString().Should().Be(expected);
+        }
+
         private static (TestLogger logger, StringBuilder sb) CreateTestLogger()
         {
             var writer = new TestWriter();
-            var logger = new TestLogger(new[] { writer });
+            var logger = new TestLogger(writer);
             var sb = new StringBuilder();
             return (logger, writer.Sb);
         }
     }
+
+    //provides seam for tests to have a fixed datetime
+    public class TestLogger : Logger
+    {
+        public TestLogger(IWriter writer) : base(writer) { }
+
+        public DateTime FixTime { get; set; } = DateTime.Now;
+
+        override protected string Format(string message, LogLevel level, DateTime time)
+        {
+            return base.Format(message, level, FixTime);
+        }
+    }
+
 }
